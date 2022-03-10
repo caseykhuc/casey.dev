@@ -2,11 +2,27 @@
 import { Flex, useColorMode } from "theme-ui";
 import NavItem from "./NavItem";
 
+enum Theme {
+  Deep = "deep",
+  Dark = "dark",
+  Swiss = "swiss",
+}
+
+type ThemeType = Theme.Deep | Theme.Dark | Theme.Swiss;
+
 const Nav = () => {
-  const [colorMode, setColorMode] = useColorMode();
-  const isDark = colorMode === `dark`;
+  const [colorMode, setColorMode] = useColorMode<ThemeType>();
+  const isDark = colorMode === Theme.Dark;
+  const isLight = colorMode === Theme.Swiss;
+
   const toggleColorMode = () => {
-    setColorMode(isDark ? `light` : `dark`);
+    if (isDark) {
+      setColorMode(Theme.Swiss);
+    } else if (isLight) {
+      setColorMode(Theme.Deep);
+    } else {
+      setColorMode(Theme.Dark);
+    }
   };
 
   return (
@@ -43,7 +59,9 @@ const Nav = () => {
             transition: "all 0.15s cubic-bezier(.4,0,.2,1)",
           }}
         >
-          {isDark ? "☀️" : "🌙"}
+          {isDark && "🌕"}
+          {isLight && "🌔"}
+          {!isDark && !isLight && "🌑"}
         </button>
       </div>
     </Flex>

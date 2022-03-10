@@ -1,17 +1,24 @@
 import "typeface-source-sans-pro";
+import { Theme } from "theme-ui"
 import { deep, dark, swiss } from '@theme-ui/presets'
 
-const theme = {
+const theme: Theme = {
   useColorSchemeMediaQuery: true,
   fonts: {
     ...swiss.fonts
+  },
+  config: {
+    initialColorModeName: 'deep',
   },
   colors: {
     ...deep.colors,
     modes: {
       dark: {
-        ...dark.colors
+        ...dark.colors,
       },
+      swiss: {
+        ...swiss.colors,
+      }
     },
   },
   space: [0, 4, 8, 12, 16, 24, 32, 64, 96, 128],
