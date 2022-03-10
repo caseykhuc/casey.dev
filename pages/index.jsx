@@ -41,8 +41,8 @@ function Icon({ name }) {
       }}
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d={pathD}
         sx={{
           fill: "primary",
@@ -52,7 +52,7 @@ function Icon({ name }) {
   );
 }
 
-export default () => (
+const Home = () => (
   <div
     sx={{
       display: "flex",
@@ -81,3 +81,5 @@ export default () => (
     </div>
   </div>
 );
+
+export default Home;
