@@ -27,11 +27,7 @@ export default function Article({ source }) {
     hljs.highlightAll();
   }, []);
 
-  return (
-    <div style={{ width: "600px", margin: "auto" }}>
-      <MDXRemote {...source} components={components} />
-    </div>
-  );
+  return <MDXRemote {...source} components={components} />;
 }
 
 export const getStaticPaths = async () => {
