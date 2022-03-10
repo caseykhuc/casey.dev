@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { Flex, useColorMode } from "theme-ui";
-import NavItem from "./navItem";
+import NavItem from "./NavItem";
 
 const Nav = () => {
   const [colorMode, setColorMode] = useColorMode();

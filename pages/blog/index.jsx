@@ -3,8 +3,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import Link from "next/link";
 import path from "path";
-import { Themed, Badge, Paragraph } from "theme-ui";
-import Form from "../../src/components/form";
+import { Badge, Paragraph, Themed } from "theme-ui";
 
 export default function Blog({ posts }) {
   return (
