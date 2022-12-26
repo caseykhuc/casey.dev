@@ -59,9 +59,9 @@ const Nav = () => {
             transition: "all 0.15s cubic-bezier(.4,0,.2,1)",
           }}
         >
-          {isDark && "🌕"}
-          {isLight && "🌔"}
-          {!isDark && !isLight && "🌑"}
+          {isDark && "🌑"}
+          {isLight && "🌕"}
+          {!isDark && !isLight && "🌒"}
         </button>
       </div>
     </Flex>

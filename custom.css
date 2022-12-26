@@ -1,0 +1,50 @@
+.body {
+  color: red;
+}
+
+.toc-level {
+}
+
+.toc-level a {
+  text-decoration: none;
+  color: var(--theme-ui-colors-primary);
+}
+
+.toc-level a:focus,
+a:hover,
+a:active {
+  filter: brightness(85%);
+}
+
+.toc-item {
+  /* text-decoration: none; */
+}
+
+.toc {
+  padding: 1em;
+  background: var(--theme-ui-colors-muted);
+  border-radius: 8px;
+  margin-bottom: 2em;
+  font-size: 14px;
+}
+
+.toc::before {
+  font-weight: bold;
+  content: "Table of content";
+  padding-left: 1em;
+}
+
+.toc ol {
+  /* margin: 0.5em 0; */
+  padding: 0;
+  padding-left: 2em;
+}
+
+.toc-level-2,
+.toc-level-3 {
+  list-style-type: disc;
+}
+
+.toc-level-1 > li {
+  margin: 1em 0;
+}

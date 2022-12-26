@@ -4,7 +4,12 @@ const BlogHeader = ({ title, dateString, mainImageUrl }) => {
   return (
     <div style={{ width: "600px", margin: "auto" }}>
       <h1>{title}</h1>
-      <Image style={{ width: "600px" }} src={mainImageUrl} alt="" />
+      <Image
+        style={{ width: "600px" }}
+        src={mainImageUrl}
+        alt=""
+        layout="fill"
+      />
       <p>Posted on {dateString}</p>
     </div>
   );

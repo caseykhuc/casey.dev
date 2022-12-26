@@ -3,6 +3,7 @@ import { ThemeProvider } from "theme-ui";
 
 import theme from "../src/theme";
 import Layout from "../src/components/Layout";
+import "../custom.css";
 
 /**
  * @see https://nextjs.org/docs/advanced-features/custom-app
