@@ -11,15 +11,16 @@ import "highlight.js/styles/vs2015.css";
 
 hljs.registerLanguage("typescript", typescript);
 
-import { Heading, Text } from "theme-ui";
-import BlogHeader from "../../src/components/BlogHeader";
-import Meta from "../../src/components/Meta";
-import getMdx from "../../utils/getMdx";
-import BlogMeta from "../../src/components/BlogMeta";
+import { Heading, Text, Image } from "theme-ui";
+import BlogHeader from "components/BlogHeader";
+import Meta from "components/Meta";
+import getMdx from "utils/getMdx";
+import BlogMeta from "components/BlogMeta";
 
 const components = {
   BlogHeader,
-  "tocitemh2": (props) => <Text variant="caps" {...props} />,
+  tocitemh2: (props) => <Text variant="caps" {...props} />,
+  Image: () => <Image src="assets/images/social-media-thumbnail.png" />,
 };
 
 const Post: NextPage | any = ({

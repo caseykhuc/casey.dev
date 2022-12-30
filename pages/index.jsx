@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { Heading } from "theme-ui";
-import Form from "../src/components/Form";
+import Form from "components/Form";
 
 function Icon({ name }) {
   let pathD = "";

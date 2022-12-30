@@ -1,0 +1,58 @@
+---
+title: "Giới thiệu về Babel và Babel plugin"
+dateString: "May 08, 2022"
+mainImageUrl: "/images/blogs/000060.JPG"
+tags: ["frontend", "babel", "babel plugin", "development tools"]
+---
+
+Babel là một công cụ mà mình cũng như các anh em Web Dev thời nay nghe và sử dụng hàng ngày. Tuy vậy, hiếm khi mình thực sự phải nghĩ xem cụ thể nó làm công việc gì, làm nó như thế nào vì hầu như babel được cài đặt sẵn trong các các project boilerplate, hoặc build tools (ví dụ như create-react-app).
+
+Chỉ đến khi 1 ngày đẹp trời, project cần optimize hoặc thay đổi 1 phần gì đó liên quan đến ví dụ như webpack, hoặc jest, và **_something not working 😬😬_**, ta mới phải vắt chân lên xem các tools mình dùng cụ thể nó làm việc như thế nào, để còn biết mà fix. Bài viết này ghi lại những gì mình học được về babel và cách nó được sử dụng trong codebase của project mình đang làm.
+
+## Babel là gì?
+
+Ban đầu, Babel (tên đương thời là 6to5) là một [tranpiler](https://en.wikipedia.org/wiki/Source-to-source_compiler), làm nhiệm vụ chính là translate **_modern Javascript code (ES6+)_** sang 1 version cũ hơn (ES5) mà hầu hết browsers có thể chạy được.
+
+<details>
+  <summary>
+    <i>Hiểu thêm về transpiler</i>
+  </summary>
+  Transpiler khác với compiler (trình biên dịch) ở chỗ nó chuyển đổi từ 1 ngôn ngữ
+  sang 1 ngôn ngữ khác *với độ abstraction ngang hàng*. Ví dụ: Java compiler chuyển
+  đổi từ Java sang bytecode, C compiler chuyển đổi C sang assambler. Còn Babel chuyển
+  đổi từ JS sang.. JS, chỉ là được viết dưới dạng 1 quy chuẩn khác.
+</details>
+
+Câu hỏi đặt ra là nếu project chỉ cần support Chrome, liệu babel còn cần thiết không?
+
+Câu trả lời là có và không. Ở thời điểm hiện tại, Babel mạnh mẽ, làm được rất nhiều điều hơn vậy, và được coi là general-purpose JS transformation tool.
+Dưới đây là những điều Babel đang giúp cho project của mình:
+
+- Convert JSX syntax! (part of preset-react)
+- preset-react
+  - @babel/plugin-transform-react-display-name: Add displayName to React.createClass calls
+
+## Babel plugin
+
+- By default, babel doesn't do anything at all. Until you config plugins
+- Presets: Collection of plugin
+
+![[Pasted image 20220512235520.png]]
+
+- Parse: Code => AST (Abstract syntax tree)
+  - AST explorer
+- Traverse & Transform: Update to AST
+- Generate: Take to updated AST => Generate back to code
+
+<details>
+  <summary>
+    <i>Hiểu thêm về AST</i>
+  </summary>
+  Abstract Syntax Tree (AST) là một cách để biểu diễn source code dưới dạng tree.
+  Một use case nổi bật nhất của AST chính là để compiler có thể dịch source code
+  từ ngôn ngữ này sang ngôn ngữ khác. Hãy thử vào trang web sau và thử hover vào
+  các node trong phần tree bên phải và quan sát đoạn code được highlight để có hình
+  dung về AST nhé: https://astexplorer.net/
+  <br />
+  ![[Screen Recording 2022-05-29 at 12.03.34 AM 1.mov]]
+</details>

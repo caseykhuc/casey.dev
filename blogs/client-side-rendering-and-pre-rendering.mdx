@@ -1,0 +1,167 @@
+---
+title: "Client side rendering vs Pre-rendering (Server-side Rendering + Static Site Generation)"
+dateString: "October 31, 2022"
+mainImageUrl: "/images/blogs/000060.JPG"
+tags: ["nextjs", "frontend"]
+---
+
+
+Client-side rendering, server-side rendering, static site generation. Chắc hẳn những cụm từ này rất quen thuộc đối với các bạn tìm hiểu về Lập trình Web. Bài viết này sẽ làm sáng tỏ hơn 2 khái niệm này cũng như chia sẻ kinh nghiệm khi sử dụng các phương pháp rendering khác nhau.
+
+## First thing first, client và server là gì?
+<h2>First thing first, client và server là gì?</h2>
+
+> Client: A machine or program that make requests through the web.
+
+Trong bài viết, **_client được hiểu với nghĩa đơn giản là web browser._** Không có gì xa lạ, browser hay trình duyệt web chính là Chrome, Firefox hay Safari, công cụ các bạn đang sử dụng để truy cập và tương tác với các websites.
+
+> Server: In computing, a server is a piece of computer hardware or software (computer program) that provides functionality for other programs or devices, called "clients".
+
+Khi được học trong trường, hoặc nghe tới việc server được đặt tại Singapore, Mỹ,... thực thể được nhắc tới ở đây là những chiếc máy tính, điển hình thì có high performance, thực hiện được rất nhiều tác vụ. Tuy nhiên, server mình muốn nhắc tới ở đây là **_những program được chạy trên những chiếc máy đó._**
+
+### FYI
+
+Có rất nhiều thuật ngữ có chứa chữ "server" ví dụ như: Web server (Nơi lưu trữ nội dung của website), Database server, etc nhưng đó không phải là đối tượng được nhắc đến trong bài viết.
+
+Tóm lại: servers là những programs (code). Chúng xử lí, thực hiện tác vụ để serve (phục vụ) cho clients programs (frontend code).
+
+### FYI
+
+- Mô hình client-server rất phổ biến, nhưng không phải là mô hình website duy nhất.
+- There's alternative: decentrialzed structure (The Peer-to-Peer model - BitTorrent - Video chat protocols)
+
+## Câu chuyện lịch sử
+
+### Once upon a time
+[!alt text](https:///)
+
+Trong nhiều năm trước, hầu hết các websites chỉ sử dụng server side rendering. Một website điển hình thời bấy giờ là Multiple Page Application (MPA). Ví dụ một trang web giới thiệu nhà hàng có 4 trang: _Home_, _About_, _Menu_, _Review_. Mỗi trang này sẽ tương ứng với 1 file html. Người dùng khi đang ở trang Menu, bấm chuyển sang trang About, browser sẽ gọi 1 request mới để lấy về file html của trang About này. Nôm na như sau:
+
+- User vào `/menu` => client gửi 1 request đến server
+- Server lấy thông tin từ database, render ra HTML
+- **_Server trả về menu.html cho client_**
+- Client dùng response trên để hiển thị ra trang web
+- User click sang trang `/about` => client gửi 1 request khác
+- **_Server tính toán, sau đó trả lại about.html cho client_**
+
+Code thời đó trông sẽ đại loại như thế này:
+
+```php
+// Establishing Connection with Server
+$connection = mysql_connect("localhost", "root", "");
+$db = mysql_select_db("company", $connection);
+
+// MySQL Query to read data
+$menu_query = mysql_query("select * from dishes", $connection);
+
+// Construct HTML
+while ($row = mysql_fetch_array($query)) {
+	echo "<b><a href="readphp.php?id={$row['dish_id']}">{$row['dish_name']}</a></b>";
+	echo "<br />";
+}
+// -- other steps to complete HTML file
+```
+
+### The Javascript Revolution
+
+Rồi một ngày, thế giới lập trình web bước sang trang mới, nhờ vào `The JavaScript revolution`
+
+- Javascript sinh ra vào năm 1995 như một ngôn ngữ dùng để tạo thêm hiệu ứng UI (UI-enhancing) hoặc xử lí validation cho các trang web. Càng ngày, các trình duyệt web (browsers) càng trở nên mạnh mẽ hơn, với Ajax trong IE và XMLHttpRequest khoảng những năm 2000.
+- Chính nhờ những tính năng mới này của browser, trong khoảng 2005-2010 Javascript đã có thể làm nhưng điều mạnh mẽ hơn nhiều so với thời điểm khai sinh. Trên thế giới bắt đầu xuất hiện những websites / web apps chạy rất nhanh, không refresh khi chuyển đổi tab, được viết hoàn toàn bằng Javascript chạy ở client-side. Đó chính là những Single Page Application đầu tiên, sử dụng **_client-side rendering._**
+
+## Định nghĩa
+
+Túm váy lại, rốt cuộc 3 phương pháp render này nghĩa là gì?
+
+Client-side rendering:
+
+- **HTML được render trực tiếp ở browser** khi người dùng truy cập.
+- Các tính năng routing, data fetching, nhiều logic để dựng lên nội dung website cũng được xử lí ở phía client.
+
+Pre-rendering gồm 2 hình thức:
+Server-side rendering:
+
+- HTML được generate từ server. Nội dung này được generate **_mỗi khi nhận được request từ client_** (mỗi khi người dùng truy cập).
+
+Static Site Generation:
+
+- HTML được **generate 1 lần ở build time**. HTML pre-built này được tái sử dụng trong tất cả các request vào trang web.
+
+## So sánh giữa client-side và pre-rendering
+
+### Về SEO
+
+Pre-rendering luôn mang lại hiệu quả SEO cao hơn. Vấn đề của client-side rendering là gì?
+
+- Với CSR, các thành phần của trang web như Header, Footer, Sidebar, Content đều được Javascript sinh ra và gắn vào DOM dần dần. Do vậy, ngay khi truy cập 1 trang web, HTML được server gửi về sẽ hầu như không có nội dung:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="description" content="Giúp Tôi! - Operations Portal" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>A web application</title>
+    <script type="module" crossorigin src="/assets/index.9aa86fe2.js"></script>
+    <link rel="modulepreload" href="/assets/vendor.2b4b6168.js" />
+    <link rel="stylesheet" href="/assets/index.23cbeab2.css" />
+  </head>
+  <body id="body">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+Tóm lại, là chả có nội dung gì có ý nghĩa cả 😅😅 Điều này sẽ ảnh hưởng tới điểm SEO của trang, do web crawlers sẽ không đọc được nội dung chính của trang web, ví dụ như các tagline, marketing content của website công ty, vân vân.
+
+FYI:
+
+- Tuy crawlers của Google đã có khả năng đọc hiểu Javascript, vẫn có những điểm hạn chế liên quan tới SEO của client-side rendering. [Đọc thêm](https://developers.google.com/search/docs/advanced/javascript/fix-search-javascript)
+
+### Về Social Sharing
+
+Khi ta share 1 website lên facebook, trong hầu hết trường hợp, thumbnail, title và 1 dòng giới thiệu sẽ hiện ra sau 1-2 giây. Điều này không tự nhiên mà có, mà đều là do Developer viết code mà ra :D
+
+Đọc thêm về Social Meta Tags ở [đây](https://css-tricks.com/essential-meta-tags-social-media/). Tóm lại, để làm được điều này, ta phải gắn thêm 1 số thẻ `<meta>` vào phần `head` của file HTML - chính là **_response của request đầu tiên client gọi lên server khi người dùng truy cập trang web_** (\*).
+
+Lấy ví dụ với yêu cầu thumbnail phải là ảnh đầu tiên xuất hiện trong trang web. Với CRS, rất khó để làm được điều này. Vì trong request đầu tiên, server đơn thuần trả về file HTML rỗng (xem phần SEO) và sau đó là file Javascript chứa các logic rendering. Ta đâu biết hình ảnh đầu tiên trong trang web là gì cho đến sau khi Javascript chạy!
+
+Với SSR, điều này lại rất đơn giản. Vì logic rendering nằm ở phía server. Server hoàn toàn có thể chạy code, rendering ra HTML, tính toán và sửa phần head của HTML, sau đó mới gửi file này về cho client. Hoàn toàn thoả mãn điều kiện (\*) ở trên
+
+### Về performance
+
+#### Client-side rendering
+
+**_Nhược điểm lớn nhất của CSR là initial load có thể rất chậm_**, đặc biệt với các web apps lớn. Lý do là vì file JS lớn chứa logic phải được browser nhận từ server, sau đó gọi các API nếu cần, cuối cùng mới đến bước render.
+
+May mắn là đã có rất nhiều giải pháp cho vấn đề này. Cơ bản nhất có thể kể đến [code-splitting](https://webpack.js.org/guides/code-splitting/) (ưu tiên load đoạn JS cần thiết), hoặc nâng cao hơn là [PRPL pattern](https://web.dev/apply-instant-loading-with-prpl/).
+
+**_Ưu điểm của CSR là web app sẽ chỉ cần load lên 1 lần, chuyển trang mượt mà không cần refresh._**
+
+#### Server-side rendering
+
+Vì server cần thời gian tính toán rồi mới phản hồi được request từ client, nên ta sẽ mất thời gian chờ ban đầu:
+
+- Slow Time to First Byte
+
+Tuy nhiên, khi có first byte cũng là lúc đã có content của cả website, nên chỉ số First Contentful Paint của SSR sẽ cao. Để tổng hợp thì SSR có những ưu điểm sau:
+
+- Fast First Paint
+- Fast First Contentful Paint
+- Fast Time to Interactive (lighter JS sent to client)
+
+#### Static Site Generation
+
+Đây chắc chắn là phương pháp để website có performance tốt nhất, vì mọi files tĩnh đã được generated sẵn, chỉ chờ request tới là có thể serve ngay. Tuy nhiên, không phải trang web nào cũng có thể sử dụng SSG. Những trang có thông tin cần được update, thêm xoá liên tục như e-magazine, trang đấu giá, ta không thể build lại cả trang web từng giây, từng phút - sẽ rất tốn resource.
+
+Tóm lại xây dựng một website, hãy tự hỏi: Page này có thể được generate ra trước khi user truy cập được không? Nếu có, cứ SSG mà xài. Nếu không, hãy cân nhắc SSR hoặc CSR. (Nguồn: https://nextjs.org/learn/basics/data-fetching/pre-rendering)
+
+### Others
+
+- Development time: CRS is often prefered

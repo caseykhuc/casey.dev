@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import { ThemeProvider } from "theme-ui";
 
-import theme from "../src/theme";
-import Layout from "../src/components/Layout";
+import theme from "theme";
+import Layout from "components/Layout";
 import "../custom.css";
 
 /**
