@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import fs from "fs";
 import type { NextPage } from "next";
 import { MDXRemote } from "next-mdx-remote";
@@ -20,7 +21,21 @@ import BlogMeta from "components/BlogMeta";
 const components = {
   BlogHeader,
   tocitemh2: (props) => <Text variant="caps" {...props} />,
-  Image: () => <Image src="assets/images/social-media-thumbnail.png" />,
+  // Image: () => <Image src="assets/images/social-media-thumbnail.png" />,
+  img: ({ src, ...rest }) => {
+    return (
+      <div>
+        <img
+          src={require("assets/images/" + src).default}
+          {...rest}
+          sx={{
+            mx: "auto",
+            display: "block",
+          }}
+        />
+      </div>
+    );
+  },
 };
 
 const Post: NextPage | any = ({
