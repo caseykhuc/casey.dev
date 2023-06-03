@@ -9,7 +9,7 @@ import { Badge, Paragraph, Themed } from "theme-ui";
 type PostMeta = {
   title: string;
   tags: string[];
-  mainImageUrl: string;
+  mainImageUrl?: string;
   excerpt: string;
   dateString: string;
   slug: string;
@@ -24,7 +24,7 @@ const Blog: NextPage | any = ({
       <section>
         {posts
           .filter((post) => !post.isDraft)
-          .map(({ slug, title, excerpt, dateString, mainImageUrl, tags }) => (
+          .map(({ slug, title, excerpt, dateString, tags }) => (
             <div sx={{ mb: 6 }} key={slug}>
               <div>{dateString}</div>
 
@@ -83,7 +83,7 @@ export async function getStaticProps() {
       return {
         title,
         tags,
-        mainImageUrl,
+        mainImageUrl: mainImageUrl || null,
         excerpt: excerpt || "",
         dateString,
         slug: file.replace(".mdx", ""),
