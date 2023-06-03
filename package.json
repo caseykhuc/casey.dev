@@ -35,7 +35,8 @@
     "dev": "next",
     "build": "next build && next export -o build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "serve-export": "serve build"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
