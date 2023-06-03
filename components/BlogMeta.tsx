@@ -41,7 +41,15 @@ export default function BlogMeta({
       </Flex>
       {mainImageUrl && (
         <div sx={{ width: "100%", pt: 32 }}>
-          <img sx={{ width: "100%" }} src={mainImageUrl} alt="cover-image" />
+          <img
+            sx={{ width: "100%" }}
+            src={
+              mainImageUrl.startsWith("http")
+                ? mainImageUrl
+                : require("assets/images/" + mainImageUrl).default
+            }
+            alt="cover-image"
+          />
         </div>
       )}
     </div>
