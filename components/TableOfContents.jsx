@@ -78,7 +78,7 @@ const TableOfContents = () => {
   return (
     <div style={{ position: 'fixed', top: 140, right: 0, width: 'inherit' }}>
       <Timeline>
-        {sections?.map((section, index) => {
+        {sections ? sections.map((section, index) => {
           return (
             <TimelineItem key={index}>
               {index !== sections.length - 1 && (
@@ -116,7 +116,7 @@ const TableOfContents = () => {
               </TimelineContent>
             </TimelineItem>
           );
-        })}
+        }) : null}
       </Timeline>
     </div>
   );
