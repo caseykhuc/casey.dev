@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import { MDXRemote } from "next-mdx-remote";
 import path from "path";
 import { useEffect } from "react";
+import { Text } from "theme-ui";
 
 import hljs from "highlight.js";
 import typescript from "highlight.js/lib/languages/typescript";
@@ -12,11 +13,10 @@ import "highlight.js/styles/vs2015.css";
 
 hljs.registerLanguage("typescript", typescript);
 
-import { Heading, Text, Image } from "theme-ui";
 import BlogHeader from "components/BlogHeader";
+import BlogMeta from "components/BlogMeta";
 import Meta from "components/Meta";
 import getMdx from "utils/getMdx";
-import BlogMeta from "components/BlogMeta";
 
 const components = {
   BlogHeader,
@@ -38,6 +38,24 @@ const components = {
             maxWidth: "100%",
           }}
         />
+      </div>
+    );
+  },
+  Video: ({ src, ...rest }) => {
+    return (
+      <div>
+        <video
+          controls
+          sx={{
+            mx: "auto",
+            maxWidth: "100%",
+          }}
+        >
+          <source
+            src={require("assets/videos/" + src).default}
+            type="video/mp4"
+          />
+        </video>
       </div>
     );
   },
