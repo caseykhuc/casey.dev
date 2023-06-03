@@ -2,9 +2,9 @@ import Head from "next/head";
 
 type MetaProps = {
   title: string;
-  keywords: string;
+  keywords?: string;
   description: string;
-  baseUrl: string;
+  baseUrl?: string;
   path: string;
   image: string;
 };

@@ -26,11 +26,16 @@ const components = {
     return (
       <div>
         <img
-          src={require("assets/images/" + src).default}
+          src={
+            src.startsWith("http")
+              ? src
+              : require("assets/images/" + src).default
+          }
           {...rest}
           sx={{
             mx: "auto",
             display: "block",
+            maxWidth: "100%",
           }}
         />
       </div>

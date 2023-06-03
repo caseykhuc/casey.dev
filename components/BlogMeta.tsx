@@ -1,4 +1,5 @@
 /** @jsxImportSource theme-ui */
+import Image from "next/image";
 import { Badge, Flex, Themed, Text } from "theme-ui";
 
 type Props = {
@@ -38,6 +39,11 @@ export default function BlogMeta({
           ))}
         </Flex>
       </Flex>
+      {mainImageUrl && (
+        <div sx={{ width: "100%", pt: 32 }}>
+          <img sx={{ width: "100%" }} src={mainImageUrl} alt="cover-image" />
+        </div>
+      )}
     </div>
   );
 }

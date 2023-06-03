@@ -1,0 +1,161 @@
+---
+title: "Giải mã Unicode"
+dateString: "March 21, 2023"
+mainImageUrl: "https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153206/A%CC%89nh-bi%CC%80a-blog-1024x621.jpg"
+tags: ["unicode"]
+---
+
+Unicode, UTF-8, ASCII là những thuật ngữ rất quen với anh chị em lập trình viên, nhưng tại sao nó lại có mặt, nó giải quyết vấn đề gì và bugs gì có thể sinh ra nếu ta không nắm được nó, thì không phải lập trình viên nào cũng có cơ hội tìm hiểu.
+
+Ngày trước, mình từng nghĩ đơn giản rằng: Unicode và UTF-8 là một, là cách dùng 2 bytes (16 bits) để biểu diễn kí tự, còn ASCII là bản cũ hơn, dùng 1 byte. Nếu bạn cũng nghĩ như mình thì nhầm rồi, nhưng đừng lo vì đây cũng là một hiểu lầm cực kỳ phổ biến về Unicode.
+
+Bài tech blog này sẽ giúp bạn làm rõ những lầm tưởng trên, đồng thời trả lời các câu hỏi như:
+
+- Tại sao chuyển giữa font .VnTime và Times New Roman lại bị lỗi? UniKey cho chọn nhiều bảng mã như vậy để làm gì?
+
+![Các bảng mã UniKey hỗ trợ](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27155551/image-3.png)
+
+_Các bảng mã UniKey hỗ trợ_
+
+- Tại sao đầu mỗi file HTML hay có dòng này? Nó có ý nghĩa gì?
+
+![Dòng trong HTLM](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27155551/image-4.png)
+
+Chúng mình cùng bắt đầu với một thử nghiệm nho nhỏ nhé!
+
+## **Vấn đề với font chữ .VnTime**
+
+Hơn 10 năm trước ở Việt Nam, các diễn đàn lớn, nhỏ, đặc biệt là của giáo viên ngập tràn những topic cần trợ giúp với file giáo án Word, PowerPoint sử dụng font **.VnTime**.
+
+![Ví dụ về lỗi font chữ .VNTime](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27155702/image-5.png)
+
+_Ví dụ về lỗi font chữ .VNTime_
+
+Thời điểm đó, nhiều tổ chức bắt đầu có các quy định yêu cầu văn bản sử dụng font chữ **Times New Roman**. Nếu người soạn thảo tận dụng các tài nguyên cũ đã được viết bằng **.VnTime** (một font chữ tiếng Việt, nhìn có vẻ giống hệt **Times New Roman**), lúc format lại sẽ thấy văn bản không thể đọc được!
+
+Vấn đề này là do font **Times New Roman** và **.VnTime** sử dụng các bảng mã (encoding) khác nhau. Tạm dừng lại ở đây, mình sẽ giải thích kỹ hơn về encoding ở phần tiếp theo.
+
+## **Unicode – Cứu tinh của những kí tự ���**
+
+Bạn có biết: Đã có thời điểm mà máy tính ở trên thế giới, khi gõ cùng một phím lại hiện ra những kí tự khác nhau? Lý do là vì những máy tính này sử dụng các bộ `encoding` khác nhau, cùng một nguyên nhân với ví dụ phía trên. Vấn đề này có thể được giải thích nhanh như sau:
+
+- Mỗi kí tự được gán với một unique number – Gọi là **_code point_** (một khái niệm trừu tượng cần nhớ).
+- **_Encoding_** – Cơ chế dịch các code point thành bit. Nói nôm na thì **_encoding_** là cách các **_code point_** được lưu trong bộ nhớ máy tính.
+
+![result.gif](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153917/image.gif)
+
+![Kí tự → Code point → Bits](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153917/image-1.gif)
+
+_Kí tự → Code point → Bits_
+
+ASCII từng là encoding phổ biến nhất trên toàn cầu. Nó sử dụng 7 bits để đại diện cho 128 kí tự khác nhau, bao gồm chữ cái, số, dấu chấm câu và các kí tự đặc biệt, hoạt động tốt với văn bản tiếng Anh.
+
+![Toàn bộ ASCII - Bộ encoding rất đơn giản chỉ có 128 kí tự](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153929/image-2-1-1024x959.jpg)
+
+_Toàn bộ ASCII – Bộ encoding rất đơn giản chỉ có 128 kí tự_
+
+Vấn đề của ASCII là nó không thể biểu diễn các kí tự đặc biệt của các ngôn ngữ khác, đặc biệt là các ngôn ngữ châu Á, vốn có nhiều kí tự hơn so với tiếng Anh.
+
+Các bảng mã như Shift JIS (Nhật Bản), GB2312 (Trung Quốc) và EUC-KR (Hàn Quốc) đều được phát triển để mở rộng bảng mã ASCII 7-bit. Các bảng mã này sử dụng các mã 8-bit hoặc mã 16-bit để biểu diễn các kí tự đặc biệt của các ngôn ngữ khác nhau. Nhiều bit hơn tương đương với nhiều kí tự có thể được biểu diễn. Các bảng mã 8-bit chỉ có thể biểu diễn tối đa 256 kí tự, trong khi các bảng mã 16-bit có thể biểu diễn tối đa 65.536 kí tự.
+
+Việc mỗi nước có một bộ encoding riêng có vẻ không gây ra vấn đề gì vì vào thời đó, khi cần gửi văn bản, người ta sẽ in ra và gửi fax cho người khác.
+
+![Máy fax](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153918/image.png)
+
+_Máy fax_
+
+Tuy nhiên, vào khoảng những năm 1980, với sự bùng nổ của email và Internet, con người trên thế giới bắt đầu gửi văn bản kỹ thuật số cho nhau.
+
+Khi mở văn bản lên, người nhận rất có thể sẽ gặp nhiều kí tự khó hiểu. Ví dụ, nếu người gửi gửi email có tiêu đề:
+
+> **_Tiếng Việt ta giàu và đẹp_**
+
+Câu này có những kí tự đặc biệt trong tiếng Việt như `ế`, `ệ`, `à`, `đ`, `ẹ`, khi gõ sử dụng encoding TCVN3 (tiếng Việt). Nếu máy tính nhận lại mặc định sử dụng Shift JIS (encoding hỗ trợ tiếng Nhật) thì văn bản khi được mở lên sẽ trông như thế này:
+
+> **_Ti ﾕ ng Vi ﾖ t ta gi ｵ u v ｵ ｮﾑ p_**
+
+![Tiếng Việt ta giàu và đẹp](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153925/image-3.gif)
+
+Lý do rất đơn giản: Để gửi văn bản đi, như phía trên đã nhắc tới, máy tính phải mã hoá các kí tự thành dạng binary. Máy tính của người gửi ở Việt Nam sử dụng bảng mã TCVN3 để chuyển chữ thành số trong khi máy tính người nhận lại chuyển ngược số thành chữ sử dụng bảng mã Shift JIS. Cùng code point 213 nhưng kí tự `ế` trong TCVN3 đã bị máy tính ở Nhật “hiểu lầm” thành `ﾕ`.
+
+Hiện tượng chữ viết bị méo mó xảy ra nhiều không đếm xuể, đến nỗi Nhật Bản có riêng từ “mojibake” để chỉ tình trạng này.
+
+Rất may mắn, Unicode đã xuất hiện vào [năm 1988](https://www.unicode.org/history/unicode88.pdf) và giải quyết vấn đề này một cách kỳ diệu. Unicode là bộ kí tự lớn nhất và giờ đây đã trở thành **_the norm_** trên Internet. Lượng kí tự Unicode có thể biểu diễn là rất rất lớn, hiện tại đã lên tới gần 150.000 kí tự. [Unicode chứa toàn bộ kí tự của hơn 100 ngôn ngữ](https://unicode.org/faq/basic_q.html#2a), hàng nghìn emoji và các kí tự đặc biệt khác, thậm chí là biểu tượng các quân cờ vua ♟️.
+
+Lưu ý rằng, Unicode là một quy chuẩn encoding và là character set: Với mỗi kí tự, Unicode gán cho nó một cái tên và một code point độc nhất. Unicode khác với ASCII ở chỗ, nó không bao hàm việc encode từ code point sang binary.
+
+## **Còn** **UTF-8** **là gì?**
+
+Quay trở lại với phần mở bài, mình và nhiều người lầm tưởng Unicode khác ASCII ở chỗ nó sử dụng nhiều bits hơn, cụ thể là 16 bits, để encode một kí tự. Tuy nhiên, với 16 bits, số kí tự tối đa biểu diễn được là 216 = 65.536. Vậy bằng cách nào Unicode lại có thể biểu diễn được được hơn 100 nghìn kí tự khác nhau và vẫn đang tiếp tục tăng lên? Và có phải chúng ta đã đánh đổi nhiều gấp 2 lần bộ nhớ để có được một bảng mã universal không? Câu trả lời ngắn gọn là không.
+
+Ví dụ:
+
+```
+Kí tự:                明
+Unicode code point:   U+660E
+```
+
+Code point trong Unicode có dạng U+AB12 với U+ đại diện cho Unicode và phần AB12 là số dưới dạng hexadecimal. Với kí tự 明 thì số mà nó được gán cho là 660E (hex). Tiếp tục quy đổi sang số nhị phân:
+
+```
+Hexadecimal:   660E
+Decimal:       26126
+Binary:        110011000001110 → Đây là một số có 15 bits
+```
+
+Để encode các kí tự Unicode về binary, có 2 loại encoding chính. Loại thứ nhất dùng số lượng byte cố định, và loại thứ hai dùng số lượng byte bất định.
+
+Với cách 1, để encode được thêm nhiều kí tự, ta dùng thêm nhiều byte hơn, đại diện là UCS2 (dùng 2 bytes = 16 bits) và UCS4 (dùng 4 bytes = 32 bits). Với cách này, đúng là bộ nhớ cho văn bản sẽ to lên theo cấp số nhân. UCS2 làm tốt nhiệm vụ thể hiện kí tự 明 bằng cách sử dụng luôn dạng binary `0110011000001110` trong bộ nhớ máy tính.
+
+Cách còn lại sử dụng linh hoạt số lượng byte cho từng kí tự, phổ biến nhất trong loại này là các encoding `UTF`. Mỗi bộ encoding có một unit size: UTF-8 có unit size là 8 bits, UTF-16 là 16 bits và UTF-32 là 32 bits.
+
+![Các flag bits được sử dụng để phân biệt 4 khoảng code point](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153919/image-1.png)
+
+_Các flag bits được sử dụng để phân biệt 4 khoảng code point_
+
+Với UTF-8, việc encode cho các code point 7-bit ở dòng 1 sẽ giống hệt ASCII, do đó UTF-8 hoàn toàn compatible với encoding tiền nhiệm này.
+
+Với các code point lớn hơn, một số những bit đầu tiên của byte được chọn làm flag, thể hiện rằng kí tự này cần bao nhiêu byte để biểu diễn và byte tiếp theo có nằm trong cùng một kí tự hay không. 明 sẽ tiếp tục được encode như sau:
+
+```
+Bước 1: Chọn khoảng
+Hex: 660E => Nằm trong khoảng 3, dùng 3 bytes</div>
+
+Bước 2: Điền bits vào format
+Binary format: 110xxxxx 10xxxxxx 10xxxxxx
+Binary code là 110011000001110, ta lần lượt điền các bit vào non-flag bit (các dấu x) theo thứ tự từ bit nhỏ nhất
+
+Bước 3: Điền nốt những non-flag bit thừa thành 0
+```
+
+![ezgif.com-video-to-gif (2).gif](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153920/image-2.gif)
+
+_Cách UTF-8 encode kí tự 明_
+
+Khi decode thì ngược lại, dựa vào flag bits ở byte đầu tiên, máy tính biết được kí tự này có 3 bytes, và dùng flag bits ở những byte tiếp theo để extract ra được code point cho kí tự này là 110011000001110 tương đương với U+660E.
+
+Chỉ với một kỹ thuật đơn giản như vậy, UTF-8 tối ưu hoá được bộ nhớ dùng để biểu diễn kí tự, compatible với ASCII, và support lên tới 4 bytes tối đa, với 21 non-flag bits giúp nó biểu diễn được hơn 2 TRIỆU kí tự, thoải mái để xử lý tất cả kí tự của Unicode.
+
+## **Kết bài**
+
+Hy vọng bài tech blog này sẽ giúp các bạn hiểu hơn về một công nghệ mà chúng ta sử dụng hàng ngày và tự tin khi xử lý kí tự, single-byte hay multi-byte. Về Unicode vẫn còn rất nhiều điều thú vị, ví dụ như cách spread một emoji ra thành các phần tử riêng lẻ như thế này:
+
+![cách spread một emoji ra thành các phần tử riêng lẻ](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153922/image-2-1024x493.jpg)
+
+Hoặc viết vài dòng code để biến tên một quốc gia thành emoji, tiện hơn mà không cần import ảnh:
+
+<iframe
+  src="https://codesandbox.io/embed/cocky-paper-lbie1d?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: 500,
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+  }}
+  title="cocky-paper-lbie1d"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+Nếu bạn thấy bài viết này hữu ích thì hãy lưu lại và chia sẻ tới bạn bè ngay nhé! Đừng quên theo dõi và ghé thăm chuyên mục [**Tech Blogs**](https://vn.got-it.ai/blog/category/tech-blogs) của Got It vào tuần cuối cùng của mỗi tháng để biết thêm nhiều kiến thức hay ho, thú vị về công nghệ và lập trình!
