@@ -41,25 +41,24 @@ const components = {
       </div>
     );
   },
-  // Video: ({ src, ...rest }) => {
-  //   return (
-  //     <div>
-  //       <video
-  //         controls
-  //         sx={{
-  //           mx: "auto",
-  //           maxWidth: "100%",
-  //         }}
-  //         {...rest}
-  //       >
-  //         <source
-  //           src={require("assets/videos/" + src).default}
-  //           type="video/mp4"
-  //         />
-  //       </video>
-  //     </div>
-  //   );
-  // },
+  Video: ({ src, ...rest }) => {
+    return (
+      <div>
+        <video
+          controls
+          sx={{
+            mx: "auto",
+            maxWidth: "100%",
+          }}
+        >
+          <source
+            src={require("assets/videos/" + src).default}
+            type="video/mp4"
+          />
+        </video>
+      </div>
+    );
+  },
 };
 
 const Post: NextPage | any = ({
