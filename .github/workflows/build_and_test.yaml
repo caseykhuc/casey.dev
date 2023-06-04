@@ -24,3 +24,24 @@ jobs:
         with:
           start: yarn serve-export
           wait-on: 'http://localhost:3000'
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: SSH to DigitalOcean
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    
+    - name: ssh proxy command
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.DROPLET_IP }}
+        key: ${{secrets.DIGITALOCEAN_SSH_KEY}}
+        username: ${{ secrets.DROPLET_USERNAME }}
+        passphrase: ${{ secrets.DIGITALOCEAN_PASSPHRASE }}
+        script: |
+          whoami
+          ls -al
