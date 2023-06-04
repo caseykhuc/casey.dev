@@ -14,12 +14,12 @@ jobs:
         with:
           node-version: 18.x
       - name: Install yarn
-        run: npm install -g yarn
+        run: npm install -g yarn serve
       - name: Build
         run: |
           yarn
           yarn build
       - name: Test
         run: |
-          yarn serve
+          yarn serve-export
           npx cypress run
