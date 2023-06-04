@@ -13,18 +13,16 @@ import "highlight.js/styles/vs2015.css";
 
 hljs.registerLanguage("typescript", typescript);
 
-import BlogHeader from "components/BlogHeader";
 import BlogMeta from "components/BlogMeta";
 import Meta from "components/Meta";
 import getMdx from "utils/getMdx";
 
 const components = {
-  BlogHeader,
   tocitemh2: (props) => <Text variant="caps" {...props} />,
   // Image: () => <Image src="assets/images/social-media-thumbnail.png" />,
-  img: ({ src, ...rest }) => {
+  img: ({ src, title, ...rest }) => {
     return (
-      <div>
+      <>
         <img
           src={
             src.startsWith("http")
@@ -38,25 +36,36 @@ const components = {
             maxWidth: "100%",
           }}
         />
-      </div>
+        {title && (
+          <figcaption sx={{ pt: 1, fontStyle: "italic", textAlign: "center" }}>
+            {title}
+          </figcaption>
+        )}
+      </>
     );
   },
-  Video: ({ src, ...rest }) => {
+  Video: ({ src, title, ...rest }) => {
     return (
-      <div>
+      <>
         <video
           controls
           sx={{
             mx: "auto",
             maxWidth: "100%",
           }}
+          {...rest}
         >
           <source
             src={require("assets/videos/" + src).default}
             type="video/mp4"
           />
         </video>
-      </div>
+        {title && (
+          <figcaption sx={{ pt: 2, fontStyle: "italic", textAlign: "center" }}>
+            {title}
+          </figcaption>
+        )}
+      </>
     );
   },
 };

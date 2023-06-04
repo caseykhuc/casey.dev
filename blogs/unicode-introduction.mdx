@@ -13,9 +13,7 @@ Bài tech blog này sẽ giúp bạn làm rõ những lầm tưởng trên, đ�
 
 - Tại sao chuyển giữa font .VnTime và Times New Roman lại bị lỗi? UniKey cho chọn nhiều bảng mã như vậy để làm gì?
 
-![Các bảng mã UniKey hỗ trợ](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27155551/image-3.png)
-
-_Các bảng mã UniKey hỗ trợ_
+![Các bảng mã UniKey hỗ trợ](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27155551/image-3.png "Các bảng mã UniKey hỗ trợ")
 
 - Tại sao đầu mỗi file HTML hay có dòng này? Nó có ý nghĩa gì?
 
@@ -27,9 +25,7 @@ Chúng mình cùng bắt đầu với một thử nghiệm nho nhỏ nhé!
 
 Hơn 10 năm trước ở Việt Nam, các diễn đàn lớn, nhỏ, đặc biệt là của giáo viên ngập tràn những topic cần trợ giúp với file giáo án Word, PowerPoint sử dụng font **.VnTime**.
 
-![Ví dụ về lỗi font chữ .VNTime](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27155702/image-5.png)
-
-_Ví dụ về lỗi font chữ .VNTime_
+![Ví dụ về lỗi font chữ .VNTime](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27155702/image-5.png "Ví dụ về lỗi font chữ .VNTime")
 
 Thời điểm đó, nhiều tổ chức bắt đầu có các quy định yêu cầu văn bản sử dụng font chữ **Times New Roman**. Nếu người soạn thảo tận dụng các tài nguyên cũ đã được viết bằng **.VnTime** (một font chữ tiếng Việt, nhìn có vẻ giống hệt **Times New Roman**), lúc format lại sẽ thấy văn bản không thể đọc được!
 
@@ -44,15 +40,11 @@ Bạn có biết: Đã có thời điểm mà máy tính ở trên thế giới,
 
 ![result.gif](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153917/image.gif)
 
-![Kí tự → Code point → Bits](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153917/image-1.gif)
-
-_Kí tự → Code point → Bits_
+![Kí tự → Code point → Bits](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153917/image-1.gif "Kí tự → Code point → Bits")
 
 ASCII từng là encoding phổ biến nhất trên toàn cầu. Nó sử dụng 7 bits để đại diện cho 128 kí tự khác nhau, bao gồm chữ cái, số, dấu chấm câu và các kí tự đặc biệt, hoạt động tốt với văn bản tiếng Anh.
 
-![Toàn bộ ASCII - Bộ encoding rất đơn giản chỉ có 128 kí tự](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153929/image-2-1-1024x959.jpg)
-
-_Toàn bộ ASCII – Bộ encoding rất đơn giản chỉ có 128 kí tự_
+![Toàn bộ ASCII - Bộ encoding rất đơn giản chỉ có 128 kí tự](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153929/image-2-1-1024x959.jpg "Toàn bộ ASCII – Bộ encoding rất đơn giản chỉ có 128 kí tự")
 
 Vấn đề của ASCII là nó không thể biểu diễn các kí tự đặc biệt của các ngôn ngữ khác, đặc biệt là các ngôn ngữ châu Á, vốn có nhiều kí tự hơn so với tiếng Anh.
 
@@ -60,9 +52,7 @@ Các bảng mã như Shift JIS (Nhật Bản), GB2312 (Trung Quốc) và EUC-KR 
 
 Việc mỗi nước có một bộ encoding riêng có vẻ không gây ra vấn đề gì vì vào thời đó, khi cần gửi văn bản, người ta sẽ in ra và gửi fax cho người khác.
 
-![Máy fax](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153918/image.png)
-
-_Máy fax_
+![Máy fax](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153918/image.png "Máy fax")
 
 Tuy nhiên, vào khoảng những năm 1980, với sự bùng nổ của email và Internet, con người trên thế giới bắt đầu gửi văn bản kỹ thuật số cho nhau.
 
@@ -109,9 +99,7 @@ Với cách 1, để encode được thêm nhiều kí tự, ta dùng thêm nhi�
 
 Cách còn lại sử dụng linh hoạt số lượng byte cho từng kí tự, phổ biến nhất trong loại này là các encoding `UTF`. Mỗi bộ encoding có một unit size: UTF-8 có unit size là 8 bits, UTF-16 là 16 bits và UTF-32 là 32 bits.
 
-![Các flag bits được sử dụng để phân biệt 4 khoảng code point](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153919/image-1.png)
-
-_Các flag bits được sử dụng để phân biệt 4 khoảng code point_
+![Các flag bits được sử dụng để phân biệt 4 khoảng code point](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153919/image-1.png "Các flag bits được sử dụng để phân biệt 4 khoảng code point")
 
 Với UTF-8, việc encode cho các code point 7-bit ở dòng 1 sẽ giống hệt ASCII, do đó UTF-8 hoàn toàn compatible với encoding tiền nhiệm này.
 
@@ -128,9 +116,7 @@ Binary code là 110011000001110, ta lần lượt điền các bit vào non-flag
 Bước 3: Điền nốt những non-flag bit thừa thành 0
 ```
 
-![ezgif.com-video-to-gif (2).gif](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153920/image-2.gif)
-
-_Cách UTF-8 encode kí tự 明_
+![Cách UTF-8 encode kí tự 明](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153920/image-2.gif "Cách UTF-8 encode kí tự 明")
 
 Khi decode thì ngược lại, dựa vào flag bits ở byte đầu tiên, máy tính biết được kí tự này có 3 bytes, và dùng flag bits ở những byte tiếp theo để extract ra được code point cho kí tự này là 110011000001110 tương đương với U+660E.
 
@@ -140,7 +126,7 @@ Chỉ với một kỹ thuật đơn giản như vậy, UTF-8 tối ưu hoá đ�
 
 Hy vọng bài tech blog này sẽ giúp các bạn hiểu hơn về một công nghệ mà chúng ta sử dụng hàng ngày và tự tin khi xử lý kí tự, single-byte hay multi-byte. Về Unicode vẫn còn rất nhiều điều thú vị, ví dụ như cách spread một emoji ra thành các phần tử riêng lẻ như thế này:
 
-![cách spread một emoji ra thành các phần tử riêng lẻ](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153922/image-2-1024x493.jpg)
+![cách spread một emoji ra thành các phần tử riêng lẻ](https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2023/04/27153922/image-2-1024x493.jpg "Cách spread một emoji ra thành các phần tử riêng lẻ")
 
 Hoặc viết vài dòng code để biến tên một quốc gia thành emoji, tiện hơn mà không cần import ảnh:
 
