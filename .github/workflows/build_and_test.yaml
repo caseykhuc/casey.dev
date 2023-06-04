@@ -50,6 +50,6 @@ jobs:
         passphrase: ${{ secrets.DIGITALOCEAN_PASSPHRASE }}
         script: |
           cd repos/casey.dev
-          git fetch origin master
-          git reset --hard origin/master
+          git fetch origin main
+          git reset --hard origin/main
           ./deploy.sh
