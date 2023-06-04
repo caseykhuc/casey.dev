@@ -1,8 +1,13 @@
 /** @jsxImportSource theme-ui */
 import { Heading } from "theme-ui";
 import Form from "components/Form";
+import { useColorMode } from "theme-ui";
 
-function Icon({ name }) {
+interface Props {
+  name: string;
+}
+
+function Icon({ name }: Props) {
   let pathD = "";
   switch (name) {
     case "email":
@@ -52,34 +57,74 @@ function Icon({ name }) {
   );
 }
 
-const Home = () => (
-  <div
-    sx={{
-      display: "flex",
-    }}
-  >
-    <div sx={{ width: "50%" }}>
-      <Heading>You can reach me at</Heading>
-      <div
-        sx={{
-          display: "flex",
-          gap: 4,
-          mt: 3,
-        }}
-      >
-        <div onClick={() => {}}>
-          <Icon name="email" />
+const contacts = [
+  {
+    name: "Email",
+    icon: "email",
+    href: "mailto:khuctrang1812@gmail.com",
+  },
+  {
+    name: "Github",
+    icon: "github",
+    href: "https://github.com/caseykhuc",
+  },
+  {
+    name: "LinkedIn",
+    icon: "linkedIn",
+    href: "https://www.linkedin.com/in/casey-trang-khuc/",
+  },
+];
+
+const Home = () => {
+  const [colorMode] = useColorMode();
+  const isLight = colorMode === "swiss";
+
+  return (
+    <div
+      sx={{
+        display: "flex",
+      }}
+    >
+      <div sx={{ width: "50%" }}>
+        <div sx={{ width: "100%" }}>
+          <img
+            sx={{ width: "100%", p: 3 }}
+            src={
+              require(`/assets/images/hi-${
+                isLight ? "friendly" : "polite"
+              }.png`).default
+            }
+            alt="greeting-image"
+          />
         </div>
-        <Icon name="github" />
-        <Icon name="linkedIn" />
-        <Icon name="facebook" />
+        <Heading>You can reach me at</Heading>
+        <div
+          sx={{
+            display: "flex",
+            gap: 4,
+            mt: 3,
+          }}
+        >
+          {contacts.map(({ name, href, icon }) => (
+            <a
+              key={name}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              sx={{ textDecoration: "none" }}
+            >
+              <Icon name={icon} />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div sx={{ width: "50%" }}>
+        <Heading mb={2}>Or message me</Heading>
+        <Form />
       </div>
     </div>
-    <div sx={{ width: "50%" }}>
-      <Heading mb={2}>Or message me</Heading>
-      <Form />
-    </div>
-  </div>
-);
+  );
+};
 
 export default Home;
