@@ -19,7 +19,9 @@ jobs:
         run: |
           yarn
           yarn build
-      - name: Test
-        run: |
-          yarn serve-export
-          npx cypress run
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          build: yarn build
+          start: yarn serve-export
+          wait-on: 'http://localhost:3000'
