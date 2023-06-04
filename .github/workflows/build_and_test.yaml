@@ -52,4 +52,9 @@ jobs:
           cd repos/casey.dev
           git fetch origin main
           git reset --hard origin/main
-          ./deploy.sh
+          nvm use 18
+          yarn install
+          yarn build
+          cp -a ./build/. /var/www/html
+          service nginx restart
+
