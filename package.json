@@ -36,11 +36,13 @@
     "build": "next build && next export -o build",
     "start": "next start",
     "lint": "next lint",
-    "serve-export": "serve build"
+    "serve-export": "serve build",
+    "cypress": "cypress open"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
     "@types/react": "^17.0.39",
+    "cypress": "^12.13.0",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
     "typescript": "^4.6.2"

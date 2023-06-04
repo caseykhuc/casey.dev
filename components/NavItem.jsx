@@ -8,19 +8,18 @@ export default function NavItem({ href, children }) {
     href === "/" ? router.pathname === href : router.asPath.startsWith(href);
 
   return (
-    <NextLink href={href}>
+    <NextLink href={href} passHref>
       <a
         sx={{
           px: 3,
           py: 2,
           mr: 3,
           fontSize: 2,
-          cursor: "pointer",
           borderRadius: 6,
-          ":hover": {
-            backgroundColor: "muted",
-          },
           color: isActive ? "text" : "gray",
+          textDecoration: "none",
+          cursor: isActive ? undefined : "pointer",
+          ":hover": isActive ? {} : { backgroundColor: "muted" },
           fontWeight: isActive ? "bold" : "normal",
         }}
       >
