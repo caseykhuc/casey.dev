@@ -1,5 +1,5 @@
 version: 0.2
-phrase:
+phases:
   install:
     runtime-versions:
       nodejs: 18.x
@@ -11,7 +11,7 @@ phrase:
     # build to static files
     commands:
       - yarn build
-  post-build:
+  post_build:
     # copy to aws s3
     commands:
       - aws s3 sync "build" "s3://nextjs-blog-221612"
