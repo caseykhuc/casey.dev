@@ -20,16 +20,16 @@ Tức là, OAuth phục vụ mục đích giải quyết **Authorization - uỷ 
 Ví dụ bạn đang dùng một cái app, tạm gọi là AnyToPDF để bạn có thể upload file docx, ảnh, powerpoint rồi convert PDF như thế này. Sẽ rất tiện nếu app cho phép bạn lựa chọn thêm - import file từ Google Drive rồi convert luôn.
 
 Sẽ rất phiền nếu bạn phải tải file từ Google Drive về, rồi lại upload lên AnyToPDF. Một cách đơn giản hơn là nhờ AnyToPDF xin thẳng Google Drive để lấy file.
-![flow demonstration](oauth-basic/1.png)
+![flow demonstration](oauth-basic/2.png)
 
 Và câu trả lời từ Google Drive chắc chắn là: 
-![flow demonstration](oauth-basic/1.png)
+![flow demonstration](oauth-basic/3.png)
 
 Vì khi này, Google Drive không biết AnyToPDF là ai, tất nhiên Drive phải bảo mật cho tài liệu của bạn rồi.
 
 ## Cụ thể về OAuth flow
 Giải pháp ở đây là sử dụng OAuth. AnyToPDF vẫn phải hỏi xin quyền từ Google Drive, nhưng gọi theo 1 cách mà cả 2 bên đã thống nhất từ trước - OAuth flow - cụ thể như sau:
-![flow demonstration](oauth-basic/1.png)
+![flow demonstration](oauth-basic/4.png)
 Ngay khi bạn click vào nút "Connect to Google Drive" trên app AnyToPDF: 
 
 **Bước 1:** Trang này sẽ gọi đến Google Drive xin quyền
