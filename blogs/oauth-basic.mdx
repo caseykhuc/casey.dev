@@ -1,0 +1,52 @@
+---
+title: "OAuth 101: Nút Connect to Google hoạt động như thế nào?"
+dateString: "April 05, 2024"
+tags: ["webdev"]
+---
+
+OAuth là một khái niệm vô cùng quen thuộc trong phát triển web.
+
+Cái tên OAuth có 2 phần: O là viết tắt của Open, còn Auth dễ dàng gợi nhớ đến Authentication và Authorization. Câu hỏi đặt ra là OAuth phục vụ cho cái nào?
+
+Khi nhớ đến các use case của OAuth như **Sign in with Google** hay **Connect with Google** - để cho phép 1 phần mềm web upload dữ liệu từ Google drive của bạn chẳng hạn; nhiều người thường nhầm rằng OAuth sinh ra cho cả 2 mục đích.
+
+Tuy nhiên, [OAuth](https://datatracker.ietf.org/doc/html/rfc5849) sinh ra chỉ nhằm mục đích cho phép một service truy cập vào tài nguyên của một service khác.
+
+Tức là, OAuth phục vụ mục đích giải quyết **Authorization - uỷ quyền - giữa các services**.
+
+![flow demonstration](oauth-basic/1.png)
+Ví dụ bạn đang dùng một cái app, tạm gọi là AnyToPDF để bạn có thể upload file docx, ảnh, powerpoint rồi convert PDF như thế này. Sẽ rất tiện nếu app cho phép bạn lựa chọn thêm - import file từ Google Drive rồi convert luôn.
+
+Sẽ rất phiền nếu bạn phải tải file từ Google Drive về, rồi lại upload lên AnyToPDF. Một cách đơn giản hơn là nhờ AnyToPDF xin thẳng Google Drive để lấy file.
+![flow demonstration](oauth-basic/1.png)
+
+Và câu trả lời từ Google Drive chắc chắn là: 
+![flow demonstration](oauth-basic/1.png)
+
+Vì khi này, Google Drive không biết AnyToPDF là ai, tất nhiên Drive phải bảo mật cho tài liệu của bạn rồi.
+
+Giải pháp ở đây là sử dụng OAuth. AnyToPDF vẫn phải hỏi xin quyền từ Google Drive, nhưng gọi theo 1 cách mà cả 2 bên đã thống nhất từ trước - OAuth flow - cụ thể như sau:
+![flow demonstration](oauth-basic/1.png)
+Ngay khi bạn click vào nút "Connect to Google Drive" trên app AnyToPDF: 
+**Bước 1:** Trang này sẽ gọi đến Google Drive xin quyền
+**Bước 2:** Google Drive sẽ dựa vào thông tin trên trình duyệt của bạn, để biết account đã được authenticate của bạn. Ví dụ là `caseykhuc@gmail.com`. 
+Drive sẽ nói với bạn là: có cái app này đang muốn xem dữ liệu của mày, mày có muốn tao cho nó xem không?
+Đây chính là bước mà chiếc màn hình huyền thoại này sẽ xổ ra:
+
+![Google asking for permissions pop up](oauth-basic/5.png)
+
+Trong màn hình này sẽ có:
+- Liệt kê những quyền - permissions - mà service AnyToPDF đang đòi truy cập.
+- Lời nhắc nhở: "Hãy đảm bảo rằng bạn tin tưởng AnyToPDF" - ở đây AnyToPDF phải cung cấp những chính sách, lời hứa với người dùng, đại loại như tôi sẽ không lưu lại data của bạn đâu, dùng để phục vụ bạn là xong thôi, vân vân.
+**Bước 3:** Ngay sau khi bạn bấm "Continue", chấp nhận cấp quyền cho bên AnyToPDF, sẽ dẫn tới **Bước 4:** Drive sẽ cung cấp cho AnyToPDF một access token - một chiếc chìa khoá đặc biệt để bên này có thể truy cập vào data của bạn ở Drive.
+
+Hãy nhớ rằng, chiếc token này có chứa những permission đã được bạn cho phép, và Drive chỉ cấp quyền cho AnyToPDF duy nhất những permission đó thôi. Chính vì vậy OAuth mới được [spec](https://datatracker.ietf.org/doc/html/rfc6749) là giúp cung cấp "limited access to an HTTP service".
+
+Câu hỏi tiếp theo sẽ là AnyToPDF và Drive sẽ sử dụng chiếc chìa khoá đó cụ thể như thế nào? Làm thế nào để nó đủ bảo mật?
+Ngoài ra, chắc chắn chúng ta sẽ thắc mắc: ơ ủa vậy còn Sign in to Google - tính năng Authentication mà cũng sử dụng OAuth bằng cách nào?
+
+Hãy đón đọc câu trả lời những câu hỏi này ở những bài viết tiếp theo của mình nhé.
+
+------------
+#HochCachHoc3
+Bài viết thuộc thử thách giải thích 30 ngày của khóa Học Cách Học.
