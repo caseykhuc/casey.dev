@@ -31,7 +31,9 @@ Vì khi này, Google Drive không biết AnyToPDF là ai, tất nhiên Drive ph�
 Giải pháp ở đây là sử dụng OAuth. AnyToPDF vẫn phải hỏi xin quyền từ Google Drive, nhưng gọi theo 1 cách mà cả 2 bên đã thống nhất từ trước - OAuth flow - cụ thể như sau:
 ![flow demonstration](oauth-basic/1.png)
 Ngay khi bạn click vào nút "Connect to Google Drive" trên app AnyToPDF: 
+
 **Bước 1:** Trang này sẽ gọi đến Google Drive xin quyền
+
 **Bước 2:** Google Drive sẽ dựa vào thông tin trên trình duyệt của bạn, để biết account đã được authenticate của bạn. Ví dụ là `caseykhuc@gmail.com`. 
 Drive sẽ nói với bạn là: có cái app này đang muốn xem dữ liệu của mày, mày có muốn tao cho nó xem không?
 Đây chính là bước mà chiếc màn hình huyền thoại này sẽ xổ ra:
@@ -41,6 +43,7 @@ Drive sẽ nói với bạn là: có cái app này đang muốn xem dữ liệu 
 Trong màn hình này sẽ có:
 - Liệt kê những quyền - permissions - mà service AnyToPDF đang đòi truy cập.
 - Lời nhắc nhở: "Hãy đảm bảo rằng bạn tin tưởng AnyToPDF" - ở đây AnyToPDF phải cung cấp những chính sách, lời hứa với người dùng, đại loại như tôi sẽ không lưu lại data của bạn đâu, dùng để phục vụ bạn là xong thôi, vân vân.
+
 **Bước 3:** Ngay sau khi bạn bấm "Continue", chấp nhận cấp quyền cho bên AnyToPDF, sẽ dẫn tới **Bước 4:** Drive sẽ cung cấp cho AnyToPDF một access token - một chiếc chìa khoá đặc biệt để bên này có thể truy cập vào data của bạn ở Drive.
 
 Hãy nhớ rằng, chiếc token này có chứa những permission đã được bạn cho phép, và Drive chỉ cấp quyền cho AnyToPDF duy nhất những permission đó thôi. Chính vì vậy OAuth mới được [spec](https://datatracker.ietf.org/doc/html/rfc6749) là giúp cung cấp "limited access to an HTTP service".
