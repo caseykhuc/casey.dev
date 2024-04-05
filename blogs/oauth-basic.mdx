@@ -4,6 +4,7 @@ dateString: "April 05, 2024"
 tags: ["webdev"]
 ---
 
+# OAuth là gì?
 OAuth là một khái niệm vô cùng quen thuộc trong phát triển web.
 
 Cái tên OAuth có 2 phần: O là viết tắt của Open, còn Auth dễ dàng gợi nhớ đến Authentication và Authorization. Câu hỏi đặt ra là OAuth phục vụ cho cái nào?
@@ -14,6 +15,7 @@ Tuy nhiên, [OAuth](https://datatracker.ietf.org/doc/html/rfc5849) sinh ra chỉ
 
 Tức là, OAuth phục vụ mục đích giải quyết **Authorization - uỷ quyền - giữa các services**.
 
+# OAuth hoạt động như thế nào?
 ![flow demonstration](oauth-basic/1.png)
 Ví dụ bạn đang dùng một cái app, tạm gọi là AnyToPDF để bạn có thể upload file docx, ảnh, powerpoint rồi convert PDF như thế này. Sẽ rất tiện nếu app cho phép bạn lựa chọn thêm - import file từ Google Drive rồi convert luôn.
 
@@ -25,6 +27,7 @@ Và câu trả lời từ Google Drive chắc chắn là:
 
 Vì khi này, Google Drive không biết AnyToPDF là ai, tất nhiên Drive phải bảo mật cho tài liệu của bạn rồi.
 
+## Cụ thể về OAuth flow
 Giải pháp ở đây là sử dụng OAuth. AnyToPDF vẫn phải hỏi xin quyền từ Google Drive, nhưng gọi theo 1 cách mà cả 2 bên đã thống nhất từ trước - OAuth flow - cụ thể như sau:
 ![flow demonstration](oauth-basic/1.png)
 Ngay khi bạn click vào nút "Connect to Google Drive" trên app AnyToPDF: 
@@ -42,6 +45,7 @@ Trong màn hình này sẽ có:
 
 Hãy nhớ rằng, chiếc token này có chứa những permission đã được bạn cho phép, và Drive chỉ cấp quyền cho AnyToPDF duy nhất những permission đó thôi. Chính vì vậy OAuth mới được [spec](https://datatracker.ietf.org/doc/html/rfc6749) là giúp cung cấp "limited access to an HTTP service".
 
+# What's more?
 Câu hỏi tiếp theo sẽ là AnyToPDF và Drive sẽ sử dụng chiếc chìa khoá đó cụ thể như thế nào? Làm thế nào để nó đủ bảo mật?
 Ngoài ra, chắc chắn chúng ta sẽ thắc mắc: ơ ủa vậy còn Sign in to Google - tính năng Authentication mà cũng sử dụng OAuth bằng cách nào?
 
