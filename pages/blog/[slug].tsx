@@ -121,7 +121,7 @@ export const getStaticProps = async ({
 }: {
   params: { slug: string };
 }) => {
-  const mdxSource = await getMdx("blogs", slug);
+  const { mdxSource } = await getMdx("blogs", slug);
 
   return { props: { source: mdxSource, meta: mdxSource.frontmatter, slug } };
 };
