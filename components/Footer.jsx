@@ -40,7 +40,7 @@ export default function Footer() {
         >
           <div>
             Email:{" "}
-            <span sx={{ color: "secondary" }}>khuctrang1812@gmail.com</span>
+            <span sx={{ color: "secondary" }}>caseykhuc@gmail.com</span>
           </div>
           <div>
             Tel: <span sx={{ color: "secondary" }}>+84 394 552 851</span>
@@ -55,12 +55,12 @@ export default function Footer() {
           }}
         >
           <div>
-            <ExternalLink href="https://github.com/khuctrang">
+            <ExternalLink href="https://github.com/caseykhuc">
               GitHub
             </ExternalLink>
           </div>
           <div>
-            <ExternalLink href="https://www.linkedin.com/in/casey-trang-khuc-804966148/">
+            <ExternalLink href="https://www.linkedin.com/in/casey-khuc/">
               LinkedIn
             </ExternalLink>
           </div>

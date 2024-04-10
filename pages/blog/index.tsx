@@ -79,7 +79,6 @@ export async function getStaticProps() {
       }: any = await serialize(markdownWithMeta, {
         parseFrontmatter: true,
       });
-      // console.log({ title, dateString, tags, mainImageUrl, excerpt });
       return {
         title,
         tags,

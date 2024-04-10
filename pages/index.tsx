@@ -61,7 +61,7 @@ const contacts = [
   {
     name: "Email",
     icon: "email",
-    href: "mailto:khuctrang1812@gmail.com",
+    href: "mailto:caseykhuc@gmail.com",
   },
   {
     name: "Github",
@@ -71,7 +71,7 @@ const contacts = [
   {
     name: "LinkedIn",
     icon: "linkedIn",
-    href: "https://www.linkedin.com/in/casey-trang-khuc/",
+    href: "https://www.linkedin.com/in/casey-khuc/",
   },
 ];
 
