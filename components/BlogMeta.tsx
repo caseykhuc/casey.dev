@@ -1,5 +1,4 @@
 /** @jsxImportSource theme-ui */
-import Image from "next/image";
 import { Badge, Flex, Themed, Text } from "theme-ui";
 
 type Props = {

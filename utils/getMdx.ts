@@ -27,7 +27,7 @@ export default async function getMdx(dirPath: string, slug: string) {
         return source.split("#### Post")[1];
       }
 
-      let output = "";
+      let output = source;
 
       if (source.includes("#### Related")) {
         // remove #### Related along with the followed paragraph
@@ -49,6 +49,7 @@ export default async function getMdx(dirPath: string, slug: string) {
         mdxOptions: {
           rehypePlugins: [
             rehypeSlug,
+            // @ts-ignore
             rehypePrism,
             [
               rehypeAutolinkHeadings,
@@ -59,6 +60,7 @@ export default async function getMdx(dirPath: string, slug: string) {
               },
             ],
             [
+              // @ts-ignore
               rehypeToc,
               {
                 customizeTOC: (toc) => {
