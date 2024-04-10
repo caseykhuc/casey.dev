@@ -1,24 +1,24 @@
 import "typeface-source-sans-pro";
-import { Theme } from "theme-ui"
-import { deep, dark, swiss } from '@theme-ui/presets'
+import { Theme } from "theme-ui";
+import { deep, dark, swiss } from "@theme-ui/presets";
 
 const theme: Theme = {
   useColorSchemeMediaQuery: true,
   fonts: {
-    ...swiss.fonts
+    ...swiss.fonts,
   },
   config: {
-    initialColorModeName: 'deep',
+    initialColorModeName: "swiss",
   },
   colors: {
-    ...deep.colors,
+    ...swiss.colors,
     modes: {
       dark: {
         ...dark.colors,
       },
-      swiss: {
-        ...swiss.colors,
-      }
+      deep: {
+        ...deep.colors,
+      },
     },
   },
   space: [0, 4, 8, 12, 16, 24, 32, 64, 96, 128],
@@ -126,47 +126,47 @@ const theme: Theme = {
   },
   badges: {
     primary: {
-      color: 'background',
-      bg: 'primary',
+      color: "background",
+      bg: "primary",
     },
     tag: {
-      color: 'primary',
-      bg: 'transparent',
-      boxShadow: 'inset 0 0 0 1px',
-      borderRadius: '8px',
+      color: "primary",
+      bg: "transparent",
+      boxShadow: "inset 0 0 0 1px",
+      borderRadius: "8px",
     },
   },
   forms: {
     label: {
       fontSize: 1,
-      fontWeight: 'bold',
+      fontWeight: "bold",
     },
     input: {
-      borderColor: 'gray',
-      '&:focus': {
-        borderColor: 'primary',
-        boxShadow: t => `0 0 0 2px ${t.colors.primary}`,
-        outline: 'none',
+      borderColor: "gray",
+      "&:focus": {
+        borderColor: "primary",
+        boxShadow: (t) => `0 0 0 2px ${t.colors.primary}`,
+        outline: "none",
       },
     },
     select: {
-      borderColor: 'gray',
-      '&:focus': {
-        borderColor: 'primary',
-        boxShadow: t => `0 0 0 2px ${t.colors.primary}`,
-        outline: 'none',
+      borderColor: "gray",
+      "&:focus": {
+        borderColor: "primary",
+        boxShadow: (t) => `0 0 0 2px ${t.colors.primary}`,
+        outline: "none",
       },
     },
     textarea: {
-      borderColor: 'gray',
-      '&:focus': {
-        borderColor: 'primary',
-        boxShadow: t => `0 0 0 2px ${t.colors.primary}`,
-        outline: 'none',
+      borderColor: "gray",
+      "&:focus": {
+        borderColor: "primary",
+        boxShadow: (t) => `0 0 0 2px ${t.colors.primary}`,
+        outline: "none",
       },
     },
     slider: {
-      bg: 'muted',
+      bg: "muted",
     },
   },
 };
