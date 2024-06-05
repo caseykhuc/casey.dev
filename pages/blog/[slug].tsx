@@ -21,6 +21,34 @@ const components = {
   tocitemh2: (props) => <Text variant="caps" {...props} />,
   // Image: () => <Image src="assets/images/social-media-thumbnail.png" />,
   img: ({ src, title, ...rest }) => {
+    if (src.endsWith(".mov") || src.endsWith(".mp4")) {
+      // console.log("video/" + src.split(".").pop());
+      return (
+        <>
+          <video
+            controls
+            sx={{
+              mx: "auto",
+              maxWidth: "100%",
+            }}
+            {...rest}
+          >
+            <source
+              src={require("assets/videos/" + src).default}
+              type="video/mp4"
+            />
+          </video>
+          {title && (
+            <figcaption
+              sx={{ pt: 2, fontStyle: "italic", textAlign: "center" }}
+            >
+              {title}
+            </figcaption>
+          )}
+        </>
+      );
+    }
+
     return (
       <>
         <img

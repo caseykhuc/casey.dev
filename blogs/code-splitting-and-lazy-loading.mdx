@@ -1,0 +1,72 @@
+---
+title: "Code splitting and lazy loading for frontend performance"
+dateString: "June 05, 2024"
+tags: ["webdev", "frontend"]
+---
+
+Cả 2 khái niệm này của phát triển web đều có cái tên rất dễ hình dung, tuy nhiên sử dụng chúng trong thực tế thế nào thì đôi khi vẫn còn gây nhầm lẫn. Hôm nay mình sẽ lấy ví dụ đơn giản để minh hoạ 2 khái niệm nhé:
+
+## Code splitting
+
+[***Code splitting***](https://developer.mozilla.org/en-US/docs/Glossary/Code_splitting) có nghĩa là xẻ (split) đoạn code - mà phổ biến nhất là code javascript - thành nhiều mảnh (chunk) nhỏ, nhằm cải thiện ***thời gian tải trang ban đầu***.
+
+Với Frontend development hiện đại, source code và third-party dependencies thường được bundle (đóng gói) lại thành file Javascript duy nhất. Với một Single-page application điển hình, thời điểm người dùng vào web app, một file `index.html` không có nội dung và file JS đã được bundle này sẽ được client gọi về qua network và load lên.
+
+![Code splitting demonstration](code-splitting-and-lazy-loading/image.png)
+
+Mục đích cụ thể của technique code splitting là tách file lớn thành các file nhỏ, để cho phép client chỉ tải về những bundle cần thiết tại thời điểm đó thôi, còn những đoạn code còn lại sẽ được tải on demand - mà có thể là khi user scroll, interact hay chuyển trang.
+
+Code được split có thể là source code, JS, CSS, hoặc cả những third-party dependencies vân vân.
+
+Tức là ở initial render ở **casey.dev**, trang Home, hoặc thậm chí là chỉ phần above the fold của Home cần được hiển thị nhanh nhất có thể. Ta sẽ tìm cách split đoạn code cần thiết cho phần UI này riêng, dùng webpack compile lại thành main.bundle.js chẳng hạn, và các đoạn code và dependencies của những phần khác sẽ được compile thành các file chunk-abc.bundle.js khác.
+
+Okay, technique chung chung là vậy. Kỹ thuật code splitting có được sử dụng cho mọi web application, chứ không dành riêng cho framework hay library nào.
+
+Tiếp theo, cụ thể làm thế nào để split?
+
+Có 2 cách:
+- Entry point splitting: chia nhỏ code thành nhiều entry points (tuy nhiên trong quá trình làm việc mình chưa bao giờ gặp trường hợp tốt để sử dụng entry point splitting, bạn đọc có kinh nghiệm mời chia sẻ nha!)
+- Dynamic splitting: sử dụng `dynamic import`
+## Dynamic import
+Dynamic import dùng syntax `import()` thay vì declaration `import A from "A.js"` như bình thường. Cách import này load module 1 cách `async`. Và đây là một ***tính năng của Javascript*** nha.
+
+Lấy một ví dụ tối giản gồm 1 file html, trong đó embed JS file `index.js` như sau:
+
+![demonstration image](code-splitting-and-lazy-loading/image1.png)
+
+`index.js`
+
+![demonstration image](code-splitting-and-lazy-loading/image2.png)
+
+Khi chạy ở browser, `data.js` tự động được tải về.
+
+Giờ bạn tưởng tượng code của mình sẽ không chỉ có 2 files `data` và `index` nữa, mà gồm hàng trăm files và dependencies khác nhau. Tất nhiên khi bật app lên, browser sẽ đọc `import` declaration từ file nọ sang file kia, và load hết tất cả code về đúng không?
+
+Okie, vậy thì `dynamic import` sẽ làm khác thế nào.
+
+Mình sẽ sửa `index.js` thành đoạn code `dynamic import` từ file `data.js` khi người dùng click vào button.
+
+![demonstration image](code-splitting-and-lazy-loading/image3.png)
+
+![](screen-record1.mov)
+
+Ok, vậy là first load, web app của mình sẽ chỉ phải tải 2 files gọn nhẹ nhất là `index.html` và `index.js` thôi. Chỉ khi người dùng tương tác với tính năng nhất định của app thì những đoạn javascript cần thiết mới được load về thêm. Đây chính là yếu tốt ***on demand*** được nhắc đến phía trên.
+
+Cụ thể về API của syntax `import()` mời bạn đọc thêm [official document](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) nhé.
+
+Hầu hết modern bundlers hiện nay (2024) như webpack, rollup đều support code splitting khi source code sử dụng dynamic import.
+
+## Lazy loading
+Khác với dynamic import - một tính năng của Javascript, Lazy loading giống với Code splitting là một kĩ thuật cải thiện performance của phát triển web.
+
+Cơ chế chính của lazy load là việc delay lại việc load các nội dung website chưa cần hiển thị trên màn hình của người dùng.
+
+Một cách để lazy load là ta dùng `dynamic import` - để load phần nội dung của trang web chỉ khi người dùng scroll đến nó. Một ví dụ cho cách này là hàm `lazy` trong React. Về bản chất, React cũng sử dụng `dynamic import`, và do đó sẽ được bundlers hỗ trợ code splitting mà thôi.
+
+Cách phổ biến nữa là chúng ta lazy load ảnh hoặc các assets nặng. Làm cách này người dùng sẽ nhìn thấy phần "khung" của web app trước, rồi một lúc sau ảnh mới hiện ra. Đây là UX khá phổ biến vì sẽ cải thiện tốt First Contentful Pain, và có thể khiến user tương tác với website ngay mà không mất thời gian chờ (ngày nay khách phải chờ 1 vài giây là tắt app liền 🥲)
+
+![](screen-record2.mov)
+
+Chỉ có một lưu ý nhỏ khi dùng Lazy loading là phải chú ý không để xảy ra Layout Shift - lỗi khiến layout web bị xộc xệch đi khi một phần web mới được lazy load xong. Tai hại nhất là web bị cuốn đi một đoạn đúng lúc user đang click, dẫn đến click vào sai element, gây khó chịu kinh khủng 🥲
+## Tóm lại
+Code splitting và Lazy loading là 2 kỹ thuật phổ biến khi nói tới web performance. Chúng có cơ chế khác nhau, nhưng trong rất nhiều trường hợp là bổ trợ cho nhau để đạt được hiệu quả mong muốn.
