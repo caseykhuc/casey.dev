@@ -1,0 +1,34 @@
+---
+title: "Redis use cases"
+dateString: "June 07, 2024"
+tags: ["webdev", "backend"]
+---
+
+#### Takeaways
+Redis is a common technique in backend development. It's widely known as a in-memory cache service. But it offers more than that. And the reason why its usage are so dominant is gonna be explained below.
+
+## Improve the read from API service to DB
+Now let's see the situation in a high view. We got an API service and a DB. Now it's cloud era so each service is at its own location, so there is always traffic among them.
+![demonstration image](redis-use-cases/image0.png)
+
+The problem with relational database is:
+- Data's stored on disk. Read from disk is slow.
+- A query is not just reading like reading from hash map. It creates a query instance, transaction and other DB thingy. -> Costly when we want to read one unchanged thing several times.
+
+Simple solution: use ***cache***
+![demonstration image](redis-use-cases/image1.png)
+
+Now imagine your API server is hosted on some computers of the Cloud provider. DB is on another, and Redis is on another. The computer runs Redis store your app data on memory, so it requires a big RAM, while the one that hosts your DB (MySQL for example) needs big storage.
+
+## As a data store
+Another use case from my previous company is using Redis for **data storage**.
+
+Imagine we are running connecting service like Grab - but with bidding. Grab drivers can offer prices, and Grab caller is suggested the best choice of driver based on the bid amount, location and the driver profile.
+
+When the driver bids on a client, that data needs to be stored somewhere, so that it can be aggregated at a later time.
+![demonstration image](redis-use-cases/image2.png)
+
+An important point here is that, unlike in Frontend development when state is often handled for one client only, in the Backend, we need to keep in mind the system can be distributed, so state needs to be store in a place where every servers can reach. Redis is a place like that. 
+
+	It's fast - remember ***in-memory*** data? And simple - ***key-value data storage***.
+
