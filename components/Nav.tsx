@@ -36,7 +36,8 @@ const Nav = () => {
       <div sx={{ ml: -3 }}>
         <NavItem href="/">Home</NavItem>
         <NavItem href="/about">About</NavItem>
-        <NavItem href="/blog">Blog</NavItem>
+        <NavItem href="/tech-blog">Tech Blog</NavItem>
+        <NavItem href="/personal-blog">Personal Blog</NavItem>
         <NavItem href="/learning-log">Learning Logs</NavItem>
       </div>
 

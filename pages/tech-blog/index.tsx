@@ -29,7 +29,7 @@ const Blog: NextPage | any = ({
               <div>{dateString}</div>
 
               <Themed.h2 sx={{ mb: 2, mt: 2 }}>
-                <Link href={`/blog/${slug}`} passHref>
+                <Link href={`/tech-blog/${slug}`} passHref>
                   <Themed.a
                     sx={{
                       color: "text",
@@ -57,14 +57,14 @@ const Blog: NextPage | any = ({
 export default Blog;
 
 export async function getStaticProps() {
-  const blogsDirectory = path.join("blogs");
+  const blogsDirectory = path.join("tech-blogs");
 
   const files = fs.readdirSync(blogsDirectory);
 
   const blogPosts = await Promise.all(
     files.map(async (file) => {
       const markdownWithMeta = fs.readFileSync(
-        path.join("blogs", file),
+        path.join("tech-blogs", file),
         "utf-8"
       );
       const {

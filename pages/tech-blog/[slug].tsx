@@ -115,7 +115,7 @@ const Post: NextPage | any = ({
     <>
       <Meta
         title={meta.title}
-        path={`/blog/${slug}`}
+        path={`/tech-blog/${slug}`}
         description={meta.description}
         image={meta.thumbnailUrl}
       />
@@ -128,7 +128,7 @@ const Post: NextPage | any = ({
 export default Post;
 
 export const getStaticPaths = async () => {
-  const blogsDirectory = path.join("blogs");
+  const blogsDirectory = path.join("tech-blogs");
 
   const files = fs.readdirSync(blogsDirectory);
 
@@ -149,7 +149,7 @@ export const getStaticProps = async ({
 }: {
   params: { slug: string };
 }) => {
-  const { mdxSource } = await getMdx("blogs", slug);
+  const { mdxSource } = await getMdx("tech-blogs", slug);
 
   return { props: { source: mdxSource, meta: mdxSource.frontmatter, slug } };
 };
